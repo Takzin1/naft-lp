@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NaFT | Natural-Food Trade</title>
+
+  <!-- ===== OGP / SNS Preview ===== -->
+  <meta property="og:title" content="NaFT | Natural-Food Trade">
+  <meta property="og:description" content="規格外の未来を、食卓へ。NaFTは環境アクションと福島のビッグ野菜をつなぐ新しいポイント経済圏です。">
+  <!-- ※公開後に絶対URLへ変更してね -->
+  <meta property="og:image" content="ogp.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- ===== Google Fonts (optional but strong) ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- ===== AOS Animation (fade-in) ===== -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    /* --- Base Styles --- */
+    :root {
+      --bg-color: #121212;
+      --text-main: #ffffff;
+      --text-sub: #b0b0b0;
+      --accent-green: #00ff9d; /* ネオン風グリーン */
+      --accent-red: #ff4d4d;   /* 完熟野菜の赤 */
+      --font-main: "Montserrat", "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
+                   "Hiragino Sans", Meiryo, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      margin: 0;
+      padding: 0;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(45deg, var(--accent-green), #00cc7a);
+      color: #000;
+      padding: 15px 40px;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+      border: none;
+      cursor: pointer;
+      opacity: 0.95;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 255, 157, 0.3);
+      opacity: 1;
+    }
+
+    /* --- Header --- */
+    header {
+      padding: 20px 0;
+      position: absolute;
+      width: 100%;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(4px);
+    }
+    .nav-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--accent-green);
+      letter-spacing: 0.08em;
+    }
+    .nav-links a {
+      margin-left: 20px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      opacity: 0.8;
+      transition: opacity 0.3s, color 0.3s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--accent-green); }
+
+    /* --- Hero Section --- */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      background: radial-gradient(circle at center, #2a2a2a 0%, #121212 70%);
+    }
+
+    /* 背景の野菜シルエット */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url('vegetable-silhouette.png') center/cover no-repeat;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .hero-logo-placeholder {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 30px;
+      background: var(--accent-green);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      box-shadow: 0 0 30px var(--accent-green);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .hero h1 span {
+      color: var(--accent-green);
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-sub);
+      margin-bottom: 40px;
+    }
+
+    /* --- Sections Common --- */
+    section {
+      padding: 100px 0;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .section-subtitle {
+      text-align: center;
+      color: var(--accent-green);
+      font-size: 1rem;
+      margin-bottom: 60px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* --- Concept --- */
+    .concept-text {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    .highlight {
+      color: var(--accent-red);
+      font-weight: bold;
+    }
+
+    /* --- How it works --- */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .step-card {
+      background: #1e1e1e;
+      padding: 40px 20px;
+      border-radius: 10px;
+      text-align: center;
+      border: 1px solid #333;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .step-card:hover {
+      border-color: var(--accent-green);
+      transform: translateY(-4px);
+    }
+    .step-num {
+      font-size: 0.9rem;
+      color: var(--accent-green);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .step-title {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+    .step-desc {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+    }
+
+    /* --- Founder Section --- */
+    .founder-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+    @media (min-width: 768px) {
+      .founder-container {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+    .founder-img {
+      flex: 1;
+      position: relative;
+    }
+
+    /* ✅ ここがバグ修正済み */
+    .founder-img img {
+      width: 100%;
+      border-radius: 10px;
+      filter: contrast(1.1) saturate(1.1);
+      box-shadow: 20px 20px 0px rgba(255, 255, 255, 0.05);
+    }
+
+    .founder-info {
+      flex: 1;
+      padding: 20px;
+    }
+    .founder-name {
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+    .founder-role {
+      color: var(--accent-green);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .founder-msg {
+      font-size: 1rem;
+      color: var(--text-sub);
+      font-style: italic;
+    }
+
+    /* --- CTA / Footer --- */
+    .cta-section {
+      background: linear-gradient(180deg, #121212 0%, #1a1a1a 100%);
+      text-align: center;
+    }
+    .form-box {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .email-input {
+      padding: 15px 18px;
+      border-radius: 50px;
+      border: 1px solid #444;
+      background: #000;
+      color: #fff;
+      width: 300px;
+      outline: none;
+      font-size: 1rem;
+    }
+    .email-input:focus {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 0 3px rgba(0,255,157,0.12);
+    }
+
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid #222;
+      color: #666;
+      font-size: 0.8rem;
+    }
+
+    /* --- Small Utilities --- */
+    .center-sub {
+      text-align:center;
+      color: var(--text-sub);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav-flex">
+      <div class="logo">NaFT</div>
+      <nav class="nav-links">
+        <a href="#concept">Concept</a>
+        <a href="#how">How it works</a>
+        <a href="#founder">Founder</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="container hero-content" data-aos="fade-up">
+      <div class="hero-logo-placeholder"></div>
+
+      <h1>規格外の未来を、<br><span>食卓へ。</span></h1>
+      <p>
+        温暖化防止のアクションで、市場に出ない"ビッグな野菜"を手に入れる。<br>
+        次世代ポイントプラットフォーム「NaFT」。
+      </p>
+      <a href="#cta" class="btn">事前登録に参加する</a>
+    </div>
+  </div>
+
+  <section id="concept">
+    <div class="container" data-aos="fade-up">
+      <p class="section-subtitle">Concept</p>
+      <h2 class="section-title">それは「訳あり」ではなく、<br>「選ばれし」ビッグサイズ。</h2>
+      <div class="concept-text">
+        <p>
+          市場の規格という「枠」に収まりきらなかった野菜たち。<br>
+          大きすぎる、形が個性的すぎる——。<br><br>
+          流通の過程では弾かれてしまうそれらは、実は大地のエナジーが最も溢れ出した
+          <span class="highlight">「プレミアムな個体」</span>でもあります。
+        </p>
+        <br>
+        <p>
+          NaFT（Natural-Food Trade）は、あなたの環境アクションをポイント化し、<br>
+          この<span class="highlight">「規格外（ビッグ）な野菜」</span>とトレードする新しい経済圏です。<br><br>
+          本来廃棄されるはずだった価値（Food Loss）と、あなたの地球を想う行動（Eco Action）。<br>
+          二つの点をつなぎ、美味しい未来を創造します。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="container" data-aos="fade-up">
+      <p class="section-subtitle">How it works</p>
+      <h2 class="section-title">アクションは、<br>あなたの「プライド」で。</h2>
+      <p class="center-sub">
+        証明書はいりません。私たちは、地球環境を変えようとする<br>
+        あなたの意思を信頼します。
+      </p>
+
+      <div class="steps">
+        <div class="step-card" data-aos="zoom-in" data-aos-delay="0">
+          <span class="step-num">STEP 01</span>
+          <h3 class="step-title">Action</h3>
+          <p class="step-desc">
+            温暖化防止につながるアクションを行う。<br>
+            （マイボトル、食べ残しゼロ、公共交通機関の利用など）
+          </p>
+        </div>
+
+        <div class="step-card" data-aos="zoom-in" data-aos-delay="120">
+          <span class="step-num">STEP 02</span>
+          <h3 class="step-title">Report</h3>
+          <p class="step-desc">
+            アプリでアクションを「自己申告」する。<br>
+            あなたの良心が、そのままポイントになります。
+          </p>
+        </div>
+
+        <div class="step-card" data-aos="zoom-in" data-aos-delay="240">
+          <span class="step-num">STEP 03</span>
+          <h3 class="step-title">Trade</h3>
+          <p class="step-desc">
+            貯まったポイントで、福島の農家が育てた<br>
+            「規格外のビッグな野菜」をお届け。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="founder">
+    <div class="container" data-aos="fade-up">
+      <p class="section-subtitle">Founder</p>
+      <div class="founder-container">
+        <div class="founder-img">
+          <!-- 画像ファイルは index.html と同じ階層に置く -->
+          <img src="yumita-webx.png" alt="Takahito Yumita at WebX 2025">
+        </div>
+
+        <div class="founder-info">
+          <h2 class="founder-name">弓田 隆仁</h2>
+          <span class="founder-role">福島大学大学院 地域デザイン科学研究科 経済経営専攻</span>
+          <p class="founder-msg">
+            「環境問題への貢献を、義務や我慢ではなく、もっと直感的な『驚き』や『喜び』に変えたい。<br><br>
+            NaFTは、福島という地から発信する、信頼（Trust）と食（Food）の新しい実験です。
+            規格外の野菜が持つポテンシャルと、個人の小さなアクションの積み重ねが、社会を大きく変えると信じています。」
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta" class="cta-section">
+    <div class="container" data-aos="fade-up">
+      <h2 class="section-title">規格外の美味しさを、<br>誰よりも早く。</h2>
+      <p>現在、プレリリースに向けた初期メンバーを募集しています。</p>
+
+      <form class="form-box" id="preRegForm">
+        <input type="email" class="email-input" id="emailInput" placeholder="メールアドレスを入力" required>
+        <button type="submit" class="btn">NaFTに参加する</button>
+      </form>
+      <p id="formMsg" class="center-sub" style="margin-top:14px; display:none;">
+        事前登録ありがとうございます！（デモ）
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 NaFT Project. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ===== AOS init ===== -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 700, once: true });
+
+    // Demo submit (あとでGoogleフォーム/DBへ差し替え可)
+    const form = document.getElementById('preRegForm');
+    const emailInput = document.getElementById('emailInput');
+    const formMsg = document.getElementById('formMsg');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!emailInput.value) return;
+
+      formMsg.style.display = 'block';
+      emailInput.value = '';
+      setTimeout(() => formMsg.style.display = 'none', 2500);
+    });
+  </script>
+
+</body>
+</html>
